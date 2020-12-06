@@ -1,6 +1,6 @@
 <template>
   <section id="signin">
-      sign in
+    sign in
   </section>
 </template>
 
