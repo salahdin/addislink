@@ -83,11 +83,21 @@
         }
         this.$store.dispatch('signupUser', obj)
         
-        }
-
       }
+    },
+    computed: {
+      user (){
+        return this.$store.getters.user
+      }
+    },
+    watch: {
+      user (value){
+        if(value !== null && value !== undefined){
+          this.$router.push('/')
+        }
+      }
+    }
   }
-  
 </script>
 
 <style>
