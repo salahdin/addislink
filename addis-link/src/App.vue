@@ -1,6 +1,7 @@
 <template>
-  <v-app>
-    <v-navigation-drawer enable-resize-watcher temporary v-model="sideNav" class="hidden-sm-and-up">
+<div id="app">
+  <v-app primary>
+    <v-navigation-drawer enable-resize-watcher absolute temporary v-model="sideNav" class="hidden-sm-and-up">
         <v-card>
           <v-list dense>
           <v-list-item-group
@@ -26,10 +27,9 @@
       </v-navigation-drawer>
       <v-card
         color="grey lighten-4"
-        flat
-        
+        text
       >
-        <v-toolbar fixed app :clipped-left="clipped">
+        <v-toolbar>
           <v-app-bar-nav-icon @click="sideNav = !sideNav" class="hidden-sm-and-up"></v-app-bar-nav-icon>
           <v-toolbar-title><router-link to="/" tag="span" style="cursor: pointer">AddisLink</router-link></v-toolbar-title>
           <v-spacer></v-spacer>
@@ -43,11 +43,11 @@
           </v-toolbar-items>
         </v-toolbar>
       </v-card>
-      
-      <v-content>
-        <router-view></router-view>
-      </v-content>
+        <v-main>
+          <router-view></router-view>
+        </v-main>
     </v-app>
+  </div>
 </template>
 
 <script>
@@ -58,9 +58,10 @@
         selectedItem: 1,
         navigation : [
           {icon: 'mdi-home', title: 'home',link: '/'},
-          {icon: 'mdi-settings', title: 'setting', link:'/user/login'},
+          {icon: 'mdi-login', title: 'setting', link:'/user/login'},
           {icon: 'mdi-alarm-plus', title: 'meetups', link:'/meetups'},
-          {icon: 'mdi-account', title: 'account',link: '/user/profile'}
+          {icon: 'mdi-account', title: 'account',link: '/user/profile'},
+          {icon: 'mdi-upload', title: 'create new', link:'/meetup/new'}
         ]
       }
     }

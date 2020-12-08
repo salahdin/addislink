@@ -1,30 +1,26 @@
 <template>
-  <v-container class="grey lighten-5">
-    <v-row no-gutters>
-      <v-col
-        v-for="n in 3"
-        :key="n"
-        cols="12"
-        sm="4"
-      >
-        <v-card
-          class="pa-2"
-          outlined
-          tile
-        >
-          One of three columns
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+  <v-app>
+    <v-carousel>
+      <v-carousel-item
+        v-for="(item, i) in meetups"
+        :key="i"
+        :src="item.imgUrl"
+        reverse-transition="fade-transition"
+        transition="fade-transition"
+      ></v-carousel-item>
+    </v-carousel>
+  </v-app>
 </template>
 
 <script>
 export default {
-
-}
+  computed: {
+    meetups() {
+      return this.$store.getters.loadedMeetups;
+    },
+  },
+};
 </script>
 
 <style>
-
 </style>

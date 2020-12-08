@@ -1,18 +1,18 @@
 <template>
   <v-container>
     <v-row no-gutters>
-        <v-col v-for="n in 3" :key="n" cols="12" sm="4">
+        <v-col v-for="item in meetups" :key="item.id" cols="12" sm="4">
             <v-container>
                 <v-card>
                     <v-img
                     class="white--text align-end"
                     height="200px"
-                    src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+                    :src="item.imgUrl"
                     >
-                    <v-card-title>Top 10 Australian beaches</v-card-title>
+                    <v-card-title>{{item.title}}</v-card-title>
                     </v-img>
                     <v-card-subtitle class="pb-0">
-                    Number 10
+                    {{item.date}}
                     </v-card-subtitle>
 
                     <v-card-text class="text--primary">
@@ -28,13 +28,14 @@
                     >
                         Share
                     </v-btn>
-
-                    <v-btn
-                        color="orange"
-                        text
-                    >
-                        Explore
-                    </v-btn>
+                    <router-link :to="'meetup/detail/1'+ item.id">
+                        <v-btn
+                            color="orange"
+                            text
+                        >
+                            Explore
+                        </v-btn>
+                    </router-link>
                     </v-card-actions>
                 </v-card>
             </v-container>    
@@ -46,6 +47,11 @@
 
 <script>
 export default {
+    computed:{
+        meetups(){
+            return this.$store.getters.loadedMeetups
+        }
+    }
 
 }
 </script>

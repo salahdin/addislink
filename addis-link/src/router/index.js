@@ -20,6 +20,12 @@ const routes = [
     name: 'CreateMeetUp',
     component: () => import('@/components/MeetUp/CreateMeetUps.vue')
   },
+  {
+    path: '/meetup/detail/:id',
+    name: 'MeetUp',
+    props: true,
+    component: () =>  import('@/components/MeetUp/MeetUp.vue')
+  },
   // user
   {
     path: '/user/new',
@@ -35,7 +41,7 @@ const routes = [
     path: '/user/profile',
     name: 'Profile',
     component: () => import('@/components/User/Profile.vue')
-  }
+  },
 ]
 
 const router = new VueRouter({
