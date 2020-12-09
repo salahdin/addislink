@@ -80,51 +80,54 @@ export const store = new Vuex.Store({
 
                 )
         },
+        signinUser({ commit }, payload) {
+            return new Promise((resolve, reject) => {
+                firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
+                    .then((userCreds) => {
+                        const User = {
+                            id: userCreds.user.uid,
+                            regMeetups: []
+                        }
+                        commit('setUser', User)
 
-        signinUser({commit}, payload){
-            firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
-            .then((userCreds)=>{
-                const User = {
-                    id: userCreds.user.uid,
-                    regMeetups: []
-                }
-                commit('setUser', User)
+                    }).then((response) => {
+                        resolve(response)
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                        reject(error)
+                    })
 
-            }).catch(
-                error => {
-                    console.log(error)
-                }
-
-            )
-        }
-    },
-    getters: {
-        loadedMeetups(state) {
-            return state.loadedMeetups.sort((meetupA, meetupB) => {
-                return meetupA.date > meetupB.date
-            })
-        },
-        loadedMeetup(state) {
-            return (meetupId) => {
-                var t = state.loadedMeetups.filter(function (item) {
-                    return item['id'] === meetupId
                 })
-                return t[0]
             }
         },
-        loadedMeetupnew(state) {
-            return (meetupId) => {
-                return {
-                    id2: '1233',
-                    list: state,
-                    id: meetupId
+        getters: {
+            loadedMeetups(state) {
+                return state.loadedMeetups.sort((meetupA, meetupB) => {
+                    return meetupA.date > meetupB.date
+                })
+            },
+            loadedMeetup(state) {
+                return (meetupId) => {
+                    var t = state.loadedMeetups.filter(function (item) {
+                        return item['id'] === meetupId
+                    })
+                    return t[0]
                 }
+            },
+            loadedMeetupnew(state) {
+                return (meetupId) => {
+                    return {
+                        id2: '1233',
+                        list: state,
+                        id: meetupId
+                    }
+                }
+            },
+            user(state) {
+                return state.user
             }
-        },
-        user (state){
-            return state.user
         }
-    }
 
 
-})
+    })

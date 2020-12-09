@@ -2,6 +2,13 @@
   <v-container>
     <v-row justify="center" align="center">
       <v-col cols="12" sm="6" md="8">
+        <v-alert dismissible :type="logalert.type" v-if="logalert.cond">
+          {{ logalert.message }}
+        </v-alert>
+      </v-col>
+    </v-row>
+    <v-row justify="center" align="center">
+      <v-col cols="12" sm="6" md="8">
         <v-card elevation="4" light tag="section">
           <v-card-title>
             <v-layout align-center justify-space-between>
@@ -39,7 +46,11 @@
           <v-card-actions :class="{ 'pa-3': $vuetify.breakpoint.smAndUp }">
             <v-btn color="info" text> Forgot password? </v-btn>
             <v-spacer></v-spacer>
-            <v-btn  @click="signin" color="info" :large="$vuetify.breakpoint.smAndUp">
+            <v-btn
+              @click="signin"
+              color="info"
+              :large="$vuetify.breakpoint.smAndUp"
+            >
               <v-icon left>mdi-login</v-icon>
               Login
             </v-btn>
@@ -51,38 +62,57 @@
 </template>
 
 <script>
+export default {
+  data() {
+    return {
+      email: "",
+      password: "",
 
-  export default {
-    data(){
-      return {
-        email: '',
-        password: ''
-      }
-
+      logalert: {
+        type: "",
+        cond: false,
+        message: "",
+      },
+    };
+  },
+  methods: {
+    signin() {
+      var obj = {
+        email: this.email,
+        password: this.password,
+      };
+      this.$store
+        .dispatch("signinUser", obj)
+        .then((res) => {
+          this.logalert = {
+            type: "success",
+            cond: true,
+            message: "logged in",
+          };
+        })
+        .catch((error) => {
+          console.log(error);
+          this.logalert = {
+            type: "error",
+            cond: true,
+            message: "login failed",
+          };
+        });
     },
-    methods: {
-      signin(){
-        var obj = {
-          email: this.email,
-          password: this.password
-        }
-        this.$store.dispatch('signinUser', obj)
-        
+  },
+  computed: {
+    user() {
+      return this.$store.getters.user;
+    },
+  },
+  watch: {
+    user(value) {
+      if (value !== null && value !== undefined) {
+        this.$router.push("/");
       }
     },
-    computed: {
-      user (){
-        return this.$store.getters.user
-      }
-    },
-    watch: {
-      user (value){
-        if(value !== null && value !== undefined){
-          this.$router.push('/')
-        }
-      }
-    }
-  };
+  },
+};
 </script>
 
 <style>
